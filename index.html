@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      p {
+        margin: 0;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+      #test-area {
+        display: flex;
+        margin-top: 200px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #ccc;
+      }
+      #recipient {
+        color: #777;
+        padding: 5px 0px;
+        margin-right: 5px;
+      }
+      #input {
+        border: none;
+        font-size: 14px;
+        padding-left: 5px;
+      }
+      #input:focus {
+        outline: none;
+      }
+      .span-content {
+        margin-top: 5px;
+        position: relative;
+      }
+      span {
+        margin-left: 10px;
+        padding: 2.5px 7.5px;
+        border: 1px solid #cccccc;
+        border-radius: 25px;
+        padding-right: 25px;
+      }
+      .del {
+        cursor: pointer;
+        bottom: 5px;
+        margin-left: 5px;
+        position: absolute;
+        display: inline-block;
+      }
+      .del::before {
+        content: '\2716';
+      }
+    </style>
+  </head>
+  <body>
+    <div id="test-area">
+      <p id="recipient">收件者</p>
+      <div class="span-content"></div>
+      <input id="input" type="text" onload="a" />
+    </div>
+
+    <script>
+      const input = document.getElementById('input');
+      const span_content = document.querySelector('.span-content');
+
+      window.onload = function() {
+        input.focus();
+      };
+
+      window.addEventListener('keydown', function(event) {
+        const key = event.keyCode;
+        if (key === 186) {
+          // create <div class="del"></div>
+          const del = document.createElement('div');
+          del.setAttribute('class', 'del');
+
+          // create <span></span>
+          const span = document.createElement('span');
+
+          // 擷取 #input 裡面的內容
+          const span_text = document.createTextNode(input.value);
+
+          // 將輸入框設為空字串
+          input.value = '';
+
+          // 在 span 標籤裡塞入擷取到的內容
+          span.appendChild(span_text);
+
+          // 在 span_content 依序插入節點
+          span.append(del);
+          span_content.append(span);
+
+          del.addEventListener('click', del_target);
+        }
+      });
+
+      // 刪除分號
+      window.addEventListener('keyup', function(event) {
+        const key = event.keyCode;
+        if (key === 186) {
+          input.value = '';
+        }
+      });
+
+      function del_target() {
+        this.parentNode.remove(this.parentNode);
+      }
+    </script>
+  </body>
+</html>
