@@ -43,7 +43,6 @@
       span {
         margin-left: 10px;
         padding: 2.5px 7.5px;
-        border: 1px solid #cccccc;
         border-radius: 25px;
         padding-right: 25px;
       }
@@ -83,19 +82,23 @@
 
           // create <span></span>
           const span = document.createElement('span');
+          span.textContent = input.value;
 
-          // 擷取 #input 裡面的內容
-          const span_text = document.createTextNode(input.value);
+          // * 擷取 #input 裡面的內容
+          // const span_text = document.createTextNode(input.value);
+
+          // 檢查 email 做處理
+          const span_res = check_email(span.textContent, span);
 
           // 將輸入框設為空字串
           input.value = '';
 
-          // 在 span 標籤裡塞入擷取到的內容
-          span.appendChild(span_text);
+          // * 在 span 標籤裡塞入擷取到的內容
+          // span.appendChild(span_text);
 
           // 在 span_content 依序插入節點
-          span.append(del);
-          span_content.append(span);
+          span_res.append(del);
+          span_content.append(span_res);
 
           del.addEventListener('click', del_target);
         }
@@ -109,8 +112,22 @@
         }
       });
 
+      // 刪除節點
       function del_target() {
         this.parentNode.remove(this.parentNode);
+      }
+
+      // 檢查信箱格式
+      function check_email(email, span) {
+        const regExp = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+        if (email.search(regExp) != -1) {
+          span.style.border = '1px solid green';
+          return span;
+        } else {
+          span.style.color = 'white';
+          span.style.backgroundColor = 'red';
+          return span;
+        }
       }
     </script>
   </body>
