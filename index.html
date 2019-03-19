@@ -90,17 +90,21 @@
           // 檢查 email 做處理
           const span_res = check_email(span.textContent, span);
 
-          // 將輸入框設為空字串
-          input.value = '';
+          if (span_res === undefined) {
+            return;
+          } else {
+            // 將輸入框設為空字串
+            input.value = '';
 
-          // * 在 span 標籤裡塞入擷取到的內容
-          // span.appendChild(span_text);
+            // * 在 span 標籤裡塞入擷取到的內容
+            // span.appendChild(span_text);
 
-          // 在 span_content 依序插入節點
-          span_res.append(del);
-          span_content.append(span_res);
+            // 在 span_content 依序插入節點
+            span_res.append(del);
+            span_content.append(span_res);
 
-          del.addEventListener('click', del_target);
+            del.addEventListener('click', del_target);
+          }
         }
       });
 
@@ -119,14 +123,18 @@
 
       // 檢查信箱格式
       function check_email(email, span) {
-        const regExp = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
-        if (email.search(regExp) != -1) {
-          span.style.border = '1px solid green';
-          return span;
+        if (email.length === 0) {
+          return;
         } else {
-          span.style.color = 'white';
-          span.style.backgroundColor = 'red';
-          return span;
+          const regExp = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+          if (email.search(regExp) != -1) {
+            span.style.border = '1px solid green';
+            return span;
+          } else {
+            span.style.color = 'white';
+            span.style.backgroundColor = 'red';
+            return span;
+          }
         }
       }
     </script>
